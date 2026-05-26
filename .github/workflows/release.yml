@@ -9,6 +9,9 @@ permissions:
   contents: write   # to create GitHub Releases
   id-token: write   # for npm provenance attestation
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   release:
     name: Publish to npm + create GitHub Release
