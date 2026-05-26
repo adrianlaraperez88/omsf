@@ -85,6 +85,7 @@ jobs:
           node apps/cli/src/index.mjs \
             --path . \
             --format sarif \
+            --fail-threshold 500 \
             --out omsf-self-scan.sarif
 
       - name: Upload SARIF to GitHub Code Scanning
