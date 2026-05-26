@@ -9,18 +9,15 @@ permissions:
   contents: write   # to create GitHub Releases
   id-token: write   # for npm provenance attestation
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
-
 jobs:
   release:
     name: Publish to npm + create GitHub Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
