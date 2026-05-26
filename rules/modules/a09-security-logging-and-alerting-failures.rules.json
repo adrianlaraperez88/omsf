@@ -1,0 +1,21 @@
+{
+  "id": "owasp-a09-security-logging-and-alerting-failures",
+  "version": "1.0.0",
+  "description": "OWASP Top 10:2025 A09 module for security logging and alerting failure signals.",
+  "rules": [
+    {
+      "id": "owasp.a09.log-suppression",
+      "scope": "script",
+      "title": "Log suppression/evasion",
+      "description": "Lifecycle script suppresses logs or redirects output to hide activity.",
+      "pattern": "\\b(?:npm|pnpm|yarn)\\b[^\\n\\r]*(?:--silent|--loglevel\\s+silent)|2>\\s*/dev/null|>\\s*NUL\\b",
+      "flags": "i",
+      "severity": "medium",
+      "confidence": "medium",
+      "weight": 3,
+      "tags": ["owasp-a09", "logging"],
+      "references": ["https://owasp.org/Top10/A09_2025-Security_Logging_and_Alerting_Failures/"]
+    }
+  ]
+}
+

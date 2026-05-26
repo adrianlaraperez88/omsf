@@ -1,0 +1,21 @@
+{
+  "id": "owasp-a02-security-misconfiguration",
+  "version": "1.0.0",
+  "description": "OWASP Top 10:2025 A02 module for insecure runtime/configuration flags.",
+  "rules": [
+    {
+      "id": "owasp.a02.insecure-tls-config",
+      "scope": "script",
+      "title": "Insecure TLS configuration",
+      "description": "Lifecycle script disables TLS verification or strict SSL.",
+      "pattern": "NODE_TLS_REJECT_UNAUTHORIZED\\s*=\\s*0|strict-ssl\\s*=\\s*false|\\b(?:curl|wget)\\b[^\\n\\r]*\\s-k\\b",
+      "flags": "i",
+      "severity": "high",
+      "confidence": "high",
+      "weight": 6,
+      "tags": ["owasp-a02", "misconfiguration"],
+      "references": ["https://owasp.org/Top10/A02_2025-Security_Misconfiguration/"]
+    }
+  ]
+}
+

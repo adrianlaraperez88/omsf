@@ -1,0 +1,7 @@
+{
+  "name": "@owasp-modules/plugin-composer",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Composer/PHP supply-chain plugin for the OWASP Module Security Framework.",
+  "license": "MIT"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "owasp-a10-mishandling-of-exceptional-conditions",
+  "version": "1.0.0",
+  "description": "OWASP Top 10:2025 A10 module for unsafe exception handling patterns.",
+  "rules": [
+    {
+      "id": "owasp.a10.silent-exception-swallow",
+      "scope": "file",
+      "title": "Silent exception swallowing",
+      "description": "Referenced JS swallows exceptions or disables crash visibility without handling.",
+      "pattern": "catch\\s*\\([^\\)]*\\)\\s*\\{\\s*\\}|process\\.on\\(\\s*['\"]uncaughtException['\"]\\s*,\\s*\\(.*\\)\\s*=>\\s*\\{\\s*\\}\\s*\\)",
+      "flags": "i",
+      "severity": "medium",
+      "confidence": "medium",
+      "weight": 3,
+      "tags": ["owasp-a10", "exception-handling"],
+      "references": ["https://owasp.org/Top10/A10_2025-Mishandling_of_Exceptional_Conditions/"]
+    }
+  ]
+}
+

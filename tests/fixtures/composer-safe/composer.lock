@@ -1,0 +1,53 @@
+{
+  "_readme": [
+    "This file locks the dependencies of your project to a known state",
+    "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-with-composer-lock-file"
+  ],
+  "content-hash": "cafebabe1234567890abcdef",
+  "packages": [
+    {
+      "name": "laravel/framework",
+      "version": "v11.9.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/laravel/framework.git",
+        "reference": "5c5aa0aac0be8a4c0f0b5a1c3b2d1e0f9a8b7c6d"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/laravel/framework/zipball/5c5aa0aac0be8a4c0f0b5a1c3b2d1e0f9a8b7c6d",
+        "reference": "5c5aa0aac0be8a4c0f0b5a1c3b2d1e0f9a8b7c6d",
+        "shasum": "1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b"
+      },
+      "type": "library",
+      "description": "The Laravel Framework — safely pinned to a full commit SHA"
+    },
+    {
+      "name": "another-safe/dependency",
+      "version": "v2.3.1",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/another-safe/dependency.git",
+        "reference": "deadbeef1234567890abcdef1234567890abcdef"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/another-safe/dependency/zipball/deadbeef1234567890abcdef1234567890abcdef",
+        "reference": "deadbeef1234567890abcdef1234567890abcdef",
+        "shasum": "1234567890abcdef1234567890abcdef12345678"
+      },
+      "type": "library",
+      "description": "Another safely SHA-pinned dependency"
+    }
+  ],
+  "packages-dev": [],
+  "aliases": [],
+  "minimum-stability": "stable",
+  "stability-flags": [],
+  "prefer-stable": true,
+  "prefer-lowest": false,
+  "platform": {
+    "php": "^8.2"
+  },
+  "platform-dev": []
+}

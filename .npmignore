@@ -1,0 +1,11 @@
+# Files that should NOT be published to npm
+# (package.json "files" field whitelists what IS included —
+#  this file is a secondary safety net for anything not listed there)
+
+.github/
+.gitignore
+*.log
+*.tmp
+reports/
+coverage/
+dist/

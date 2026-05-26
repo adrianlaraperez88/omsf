@@ -1,0 +1,21 @@
+{
+  "id": "owasp-a01-broken-access-control",
+  "version": "1.0.0",
+  "description": "OWASP Top 10:2025 A01 module focused on dangerous permission and persistence changes.",
+  "rules": [
+    {
+      "id": "owasp.a01.privilege-persistence-write",
+      "scope": "script",
+      "title": "Privilege/persistence file manipulation",
+      "description": "Lifecycle script modifies privileged access or persistence files.",
+      "pattern": "authorized_keys|/etc/sudoers|icacls\\s+.+/grant|takeown\\s+/f|chmod\\s+777",
+      "flags": "i",
+      "severity": "high",
+      "confidence": "medium",
+      "weight": 6,
+      "tags": ["owasp-a01", "access-control"],
+      "references": ["https://owasp.org/Top10/A01_2025-Broken_Access_Control/"]
+    }
+  ]
+}
+

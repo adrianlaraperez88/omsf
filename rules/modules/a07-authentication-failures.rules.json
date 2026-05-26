@@ -1,0 +1,21 @@
+{
+  "id": "owasp-a07-authentication-failures",
+  "version": "1.0.0",
+  "description": "OWASP Top 10:2025 A07 module for authentication and credential misuse signals.",
+  "rules": [
+    {
+      "id": "owasp.a07.secret-material-exposure",
+      "scope": "script",
+      "title": "Credential/token exposure",
+      "description": "Lifecycle script references likely sensitive auth material.",
+      "pattern": "process\\.env\\.(?:NPM_TOKEN|GITHUB_TOKEN|AWS_SECRET_ACCESS_KEY)|\\bAKIA[0-9A-Z]{16}\\b|gh[pousr]_[A-Za-z0-9_]{20,}",
+      "flags": "i",
+      "severity": "high",
+      "confidence": "medium",
+      "weight": 5,
+      "tags": ["owasp-a07", "auth"],
+      "references": ["https://owasp.org/Top10/A07_2025-Authentication_Failures/"]
+    }
+  ]
+}
+

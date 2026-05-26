@@ -1,0 +1,59 @@
+{
+  "id": "owasp-a03-software-supply-chain-failures",
+  "version": "1.0.0",
+  "description": "OWASP Top 10:2025 A03 module focused on software supply-chain execution risks.",
+  "rules": [
+    {
+      "id": "owasp.a03.remote-stream-node",
+      "scope": "script",
+      "title": "Remote stream to node",
+      "description": "Remote content piped directly into node.",
+      "pattern": "\\b(?:curl|wget|iwr|invoke-webrequest)\\b.*\\|\\s*node(?:\\.exe)?\\b",
+      "flags": "i",
+      "severity": "critical",
+      "confidence": "high",
+      "weight": 8,
+      "tags": ["owasp-a03", "supply-chain"],
+      "references": ["https://owasp.org/Top10/A03_2025-Software_Supply_Chain_Failures/"]
+    },
+    {
+      "id": "owasp.a03.remote-stream-shell",
+      "scope": "script",
+      "title": "Remote stream to shell",
+      "description": "Remote content piped directly into shell/interpreter.",
+      "pattern": "\\b(?:curl|wget|iwr|invoke-webrequest)\\b.*\\|\\s*(?:bash|sh|zsh|pwsh|powershell(?:\\.exe)?|cmd(?:\\.exe)?|iex|invoke-expression)\\b",
+      "flags": "i",
+      "severity": "critical",
+      "confidence": "high",
+      "weight": 8,
+      "tags": ["owasp-a03", "supply-chain"],
+      "references": ["https://owasp.org/Top10/A03_2025-Software_Supply_Chain_Failures/"]
+    },
+    {
+      "id": "owasp.a03.node-external-url",
+      "scope": "script",
+      "title": "Node executes remote URL",
+      "description": "Script calls node with a remote JavaScript URL.",
+      "pattern": "\\bnode(?:\\.exe)?\\s+https?://[^\\s]+\\.js\\b",
+      "flags": "i",
+      "severity": "high",
+      "confidence": "high",
+      "weight": 6,
+      "tags": ["owasp-a03", "remote-code"],
+      "references": ["https://owasp.org/Top10/A03_2025-Software_Supply_Chain_Failures/"]
+    },
+    {
+      "id": "owasp.a03.file-child-process-network",
+      "scope": "file",
+      "title": "Child process with network command",
+      "description": "Referenced JS contains child-process + network/command behavior.",
+      "pattern": "(?:child_process|execSync|execFileSync|spawnSync|spawn|exec)\\b[\\s\\S]{0,500}(?:https?://|curl|wget|invoke-webrequest|iwr|\\|\\s*(?:bash|sh|pwsh|powershell|cmd)|\\biex\\b|invoke-expression)",
+      "flags": "i",
+      "severity": "critical",
+      "confidence": "high",
+      "weight": 8,
+      "tags": ["owasp-a03", "stager"],
+      "references": ["https://owasp.org/Top10/A03_2025-Software_Supply_Chain_Failures/"]
+    }
+  ]
+}

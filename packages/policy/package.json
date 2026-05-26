@@ -1,0 +1,8 @@
+{
+  "name": "@owasp-modules/policy",
+  "version": "1.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.mjs"
+}
+

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+*.log
+reports/
+*.tmp
+.DS_Store
+Thumbs.db
+*.sarif
+omsf-self-scan.sarif

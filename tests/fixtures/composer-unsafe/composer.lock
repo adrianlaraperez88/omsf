@@ -1,0 +1,71 @@
+{
+  "_readme": [
+    "This file locks the dependencies of your project to a known state",
+    "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-with-composer-lock-file"
+  ],
+  "_warning": "FIXTURE: This lock file deliberately uses mutable-tag pinning (dist.reference is a version string, not a commit SHA) to trigger the composer.lock-tag-only-pin detection rule.",
+  "content-hash": "abc123def456",
+  "packages": [
+    {
+      "name": "laravel-lang/http-statuses",
+      "version": "3.2.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/Laravel-Lang/http-statuses.git",
+        "reference": "3.2.0"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/Laravel-Lang/http-statuses/zipball/3.2.0",
+        "reference": "3.2.0",
+        "shasum": ""
+      },
+      "type": "library",
+      "description": "HTTP status messages for Laravel — COMPROMISED in May 2026 attack"
+    },
+    {
+      "name": "laravel-lang/actions",
+      "version": "2.1.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/Laravel-Lang/actions.git",
+        "reference": "2.1.0"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/Laravel-Lang/actions/zipball/2.1.0",
+        "reference": "2.1.0",
+        "shasum": ""
+      },
+      "type": "library",
+      "description": "Laravel actions — COMPROMISED in May 2026 attack"
+    },
+    {
+      "name": "safe-vendor/safe-package",
+      "version": "1.0.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/safe-vendor/safe-package.git",
+        "reference": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/safe-vendor/safe-package/zipball/a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2",
+        "reference": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2",
+        "shasum": "deadbeef1234567890abcdef1234567890abcdef"
+      },
+      "type": "library",
+      "description": "This package is safely pinned to a commit SHA"
+    }
+  ],
+  "packages-dev": [],
+  "aliases": [],
+  "minimum-stability": "stable",
+  "stability-flags": [],
+  "prefer-stable": true,
+  "prefer-lowest": false,
+  "platform": {
+    "php": "^8.1"
+  },
+  "platform-dev": []
+}

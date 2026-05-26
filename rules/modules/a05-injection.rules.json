@@ -1,0 +1,21 @@
+{
+  "id": "owasp-a05-injection",
+  "version": "1.0.0",
+  "description": "OWASP Top 10:2025 A05 module for shell and script injection behaviors.",
+  "rules": [
+    {
+      "id": "owasp.a05.inline-shell-eval",
+      "scope": "script",
+      "title": "Inline shell/eval execution",
+      "description": "Lifecycle script executes inline code or expression engines.",
+      "pattern": "\\b(?:node\\s+-e|bash\\s+-c|sh\\s+-c|pwsh\\s+-c|powershell(?:\\.exe)?\\s+-c|iex|invoke-expression)\\b",
+      "flags": "i",
+      "severity": "high",
+      "confidence": "high",
+      "weight": 6,
+      "tags": ["owasp-a05", "injection"],
+      "references": ["https://owasp.org/Top10/A05_2025-Injection/"]
+    }
+  ]
+}
+

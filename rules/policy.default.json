@@ -1,0 +1,17 @@
+{
+  "failThreshold": 10,
+  "perFindingFailThreshold": 7,
+  "mediumRiskThreshold": 6,
+  "highRiskThreshold": 12,
+  "blockedRuleIds": [
+    "npm.remote-stream-node",
+    "npm.remote-stream-shell",
+    "npm.file.child-process-network",
+    "composer.script-remote-exec",
+    "composer.file.php-base64-eval",
+    "composer.file.remote-fetch",
+    "composer.file.php-system-exec"
+  ],
+  "allowlist": [],
+  "suppressions": []
+}

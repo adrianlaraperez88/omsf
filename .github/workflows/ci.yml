@@ -1,0 +1,95 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ["20", "22", "24"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: "npm"
+
+      - name: Run tests
+        run: npm run test:ci
+
+  lint-rules:
+    name: Validate rule packs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Validate all rule pack JSON files
+        run: |
+          node -e "
+          import('node:fs').then(({readdirSync, readFileSync}) => {
+            const dirs = [
+              'rules',
+              'rules/modules'
+            ];
+            let errors = 0;
+            for (const dir of dirs) {
+              for (const f of readdirSync(dir).filter(n => n.endsWith('.rules.json'))) {
+                try {
+                  const pack = JSON.parse(readFileSync(dir + '/' + f, 'utf8'));
+                  if (!pack.id || !Array.isArray(pack.rules)) throw new Error('missing id or rules');
+                  for (const r of pack.rules) {
+                    if (!r.id || !r.pattern || !r.scope) throw new Error('rule ' + r.id + ' missing required fields');
+                    new RegExp(r.pattern, r.flags || 'i');
+                  }
+                  console.log('OK:', dir + '/' + f, '(' + pack.rules.length + ' rules)');
+                } catch (e) {
+                  console.error('FAIL:', dir + '/' + f, e.message);
+                  errors++;
+                }
+              }
+            }
+            if (errors > 0) process.exit(1);
+          });
+          "
+
+  self-scan:
+    name: OMSF self-scan
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run OMSF on itself (SARIF)
+        run: |
+          node apps/cli/src/index.mjs \
+            --path . \
+            --format sarif \
+            --out omsf-self-scan.sarif
+
+      - name: Upload SARIF to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: omsf-self-scan.sarif
+        continue-on-error: true

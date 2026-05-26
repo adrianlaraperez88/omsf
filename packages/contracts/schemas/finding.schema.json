@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://security.local/schemas/finding.schema.json",
+  "title": "Finding",
+  "type": "object",
+  "required": [
+    "id",
+    "tool",
+    "plugin",
+    "ruleId",
+    "title",
+    "message",
+    "severity",
+    "confidence",
+    "weight",
+    "path",
+    "snippet",
+    "tags",
+    "references"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "tool": { "type": "string", "minLength": 1 },
+    "plugin": { "type": "string", "minLength": 1 },
+    "ruleId": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "message": { "type": "string", "minLength": 1 },
+    "severity": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+    "confidence": { "type": "string", "enum": ["low", "medium", "high"] },
+    "weight": { "type": "number", "minimum": 0 },
+    "path": { "type": "string", "minLength": 1 },
+    "hook": { "type": ["string", "null"] },
+    "snippet": { "type": "string" },
+    "blocked": { "type": "boolean" },
+    "effectiveWeight": { "type": "number", "minimum": 0 },
+    "fingerprint": { "type": "string" },
+    "isNew": { "type": "boolean" },
+    "suppression": {
+      "type": "object",
+      "required": ["reason", "expiresOn"],
+      "properties": {
+        "ruleId": { "type": ["string", "null"] },
+        "pathRegex": { "type": ["string", "null"] },
+        "hook": { "type": ["string", "null"] },
+        "reason": { "type": "string", "minLength": 1 },
+        "expiresOn": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "references": {
+      "type": "array",
+      "items": { "type": "string", "format": "uri" }
+    }
+  },
+  "additionalProperties": false
+}

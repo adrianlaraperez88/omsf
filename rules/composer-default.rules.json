@@ -1,0 +1,185 @@
+{
+  "id": "composer-default",
+  "version": "1.0.0",
+  "description": "Default Composer/PHP supply-chain security detection rules. Targets the Laravel-Lang class of attack: autoload.files injection, mutable-tag lock files, and PHP dropper payloads.",
+  "rules": [
+    {
+      "id": "composer.autoload-files-entry",
+      "scope": "manifest",
+      "title": "autoload.files entry detected",
+      "description": "The composer.json declares files under autoload.files. PHP executes every listed file on every application boot via the Composer autoloader — this was the exact injection vector used in the May 2026 Laravel-Lang supply chain attack. Review each entry carefully.",
+      "pattern": "autoload\\.files",
+      "flags": "i",
+      "severity": "high",
+      "confidence": "high",
+      "weight": 6,
+      "tags": ["composer", "autoload", "supply-chain", "laravel-lang-attack"],
+      "references": [
+        "https://www.stepsecurity.io/blog/laravel-lang-supply-chain-attack",
+        "https://getcomposer.org/doc/04-schema.md#autoload"
+      ]
+    },
+    {
+      "id": "composer.autoload-dev-files-entry",
+      "scope": "manifest",
+      "title": "autoload-dev.files entry detected",
+      "description": "The composer.json declares files under autoload-dev.files. While scoped to development, these files are auto-executed during dev/CI installs and can serve as dropper vectors.",
+      "pattern": "autoload-dev\\.files",
+      "flags": "i",
+      "severity": "medium",
+      "confidence": "high",
+      "weight": 4,
+      "tags": ["composer", "autoload", "supply-chain"],
+      "references": [
+        "https://www.stepsecurity.io/blog/laravel-lang-supply-chain-attack",
+        "https://getcomposer.org/doc/04-schema.md#autoload-dev"
+      ]
+    },
+    {
+      "id": "composer.missing-lockfile",
+      "scope": "lockfile",
+      "title": "composer.lock absent",
+      "description": "A composer.json exists but no composer.lock was found. Without a lock file, every install resolves dependencies fresh from the registry — a compromised or mutable package tag will silently pull malicious code. The Laravel-Lang attack was undetectable in projects without a committed lock file.",
+      "pattern": "missing",
+      "flags": "i",
+      "severity": "high",
+      "confidence": "high",
+      "weight": 7,
+      "tags": ["composer", "lockfile", "integrity", "supply-chain"],
+      "references": [
+        "https://www.stepsecurity.io/blog/laravel-lang-supply-chain-attack",
+        "https://getcomposer.org/doc/01-basic-usage.md#commit-your-composer-lock-file-to-version-control"
+      ]
+    },
+    {
+      "id": "composer.lock-tag-only-pin",
+      "scope": "lockfile",
+      "title": "Package pinned by tag, not commit SHA",
+      "description": "One or more packages in composer.lock use a version tag as the sole pin (dist.reference is a version string, not a 40-character commit SHA). Git tags are mutable — the Laravel-Lang attacker force-pushed new malicious commits behind existing tags, bypassing version-pinned installs. Pin to a commit SHA for immutable resolution.",
+      "pattern": "tag-pin",
+      "flags": "i",
+      "severity": "high",
+      "confidence": "high",
+      "weight": 7,
+      "tags": ["composer", "lockfile", "integrity", "mutable-tag", "supply-chain"],
+      "references": [
+        "https://www.stepsecurity.io/blog/laravel-lang-supply-chain-attack",
+        "https://getcomposer.org/doc/01-basic-usage.md#installing-without-composer-lock"
+      ]
+    },
+    {
+      "id": "composer.script-remote-exec",
+      "scope": "script",
+      "title": "Composer script pipes remote content to interpreter",
+      "description": "A Composer lifecycle script streams remote content directly into php, bash, or another interpreter. This is a critical code-execution risk in CI/CD pipelines.",
+      "pattern": "\\b(?:curl|wget)\\b.*\\|\\s*(?:php(?:\\.exe)?|bash|sh|zsh|pwsh|powershell(?:\\.exe)?|cmd(?:\\.exe)?)\\b",
+      "flags": "i",
+      "severity": "critical",
+      "confidence": "high",
+      "weight": 9,
+      "tags": ["composer", "script", "rce", "supply-chain"],
+      "references": [
+        "https://getcomposer.org/doc/articles/scripts.md"
+      ]
+    },
+    {
+      "id": "composer.script-network-download",
+      "scope": "script",
+      "title": "Network download in Composer lifecycle script",
+      "description": "A Composer lifecycle script invokes a network download utility (curl/wget/Invoke-WebRequest). Downloads during install hooks are a common supply-chain stager technique.",
+      "pattern": "\\b(?:curl|wget|iwr|invoke-webrequest)\\b",
+      "flags": "i",
+      "severity": "medium",
+      "confidence": "high",
+      "weight": 4,
+      "tags": ["composer", "script", "download"],
+      "references": []
+    },
+    {
+      "id": "composer.script-inline-php-exec",
+      "scope": "script",
+      "title": "Inline PHP execution in Composer script",
+      "description": "A Composer lifecycle script uses php -r to execute inline PHP code, which can be a vector for obfuscated or encoded payloads.",
+      "pattern": "\\bphp(?:\\.exe)?\\s+-r\\b",
+      "flags": "i",
+      "severity": "medium",
+      "confidence": "high",
+      "weight": 4,
+      "tags": ["composer", "script", "rce"],
+      "references": []
+    },
+    {
+      "id": "composer.file.php-system-exec",
+      "scope": "file",
+      "title": "PHP system command execution in autoloaded file",
+      "description": "An autoloaded PHP file calls a system execution function (system, exec, shell_exec, passthru, proc_open, or backtick operator). Auto-execution on boot combined with shell access is a critical code-execution risk.",
+      "pattern": "\\b(?:system|exec|shell_exec|passthru|proc_open|popen)\\s*\\(|`[^`]{1,500}`",
+      "flags": "i",
+      "severity": "critical",
+      "confidence": "high",
+      "weight": 9,
+      "tags": ["composer", "php", "rce", "supply-chain"],
+      "references": [
+        "https://www.stepsecurity.io/blog/laravel-lang-supply-chain-attack"
+      ]
+    },
+    {
+      "id": "composer.file.php-base64-eval",
+      "scope": "file",
+      "title": "Base64-encoded eval in autoloaded PHP file",
+      "description": "An autoloaded PHP file contains eval(base64_decode(...)) or a similar obfuscation chain. This is the canonical PHP dropper signature and matches exactly the payload style used in the Laravel-Lang attack.",
+      "pattern": "\\beval\\s*\\(\\s*(?:base64_decode|gzinflate|str_rot13|gzuncompress|strrev)\\s*\\(",
+      "flags": "i",
+      "severity": "critical",
+      "confidence": "high",
+      "weight": 10,
+      "tags": ["composer", "php", "obfuscation", "dropper", "supply-chain"],
+      "references": [
+        "https://www.stepsecurity.io/blog/laravel-lang-supply-chain-attack"
+      ]
+    },
+    {
+      "id": "composer.file.remote-fetch",
+      "scope": "file",
+      "title": "Remote fetch in autoloaded PHP file",
+      "description": "An autoloaded PHP file fetches content from a remote URL using file_get_contents, curl, or fsockopen. Combined with auto-execution via autoload.files, this is the exact dropper→stager pattern used in the Laravel-Lang attack.",
+      "pattern": "\\bfile_get_contents\\s*\\(\\s*['\"]https?://|\\bcurl_exec\\s*\\(|\\bfsockopen\\s*\\(|\\bstream_socket_client\\s*\\([^)]{0,200}https?://",
+      "flags": "i",
+      "severity": "critical",
+      "confidence": "high",
+      "weight": 10,
+      "tags": ["composer", "php", "remote-fetch", "dropper", "supply-chain"],
+      "references": [
+        "https://www.stepsecurity.io/blog/laravel-lang-supply-chain-attack"
+      ]
+    },
+    {
+      "id": "composer.file.credential-exfil",
+      "scope": "file",
+      "title": "Credential exfiltration patterns in autoloaded PHP file",
+      "description": "An autoloaded PHP file references common credential sources: environment variables, AWS/GCP/Azure credential paths, SSH key paths, or .env file access. These were all targeted in the Laravel-Lang credential stealer payload.",
+      "pattern": "\\$_ENV|\\bgetenv\\s*\\(|AWS_(?:ACCESS_KEY|SECRET|SESSION_TOKEN)|GOOGLE_APPLICATION_CREDENTIALS|AZURE_CLIENT_SECRET|\\.aws/credentials|\\.config/gcloud|id_rsa|id_ed25519|\\.env['\"]|HOME.*\\.ssh",
+      "flags": "i",
+      "severity": "high",
+      "confidence": "medium",
+      "weight": 6,
+      "tags": ["composer", "php", "credential-theft", "exfiltration", "supply-chain"],
+      "references": [
+        "https://www.stepsecurity.io/blog/laravel-lang-supply-chain-attack"
+      ]
+    },
+    {
+      "id": "composer.file.c2-endpoint",
+      "scope": "file",
+      "title": "Suspicious C2/exfil endpoint in autoloaded PHP file",
+      "description": "An autoloaded PHP file references known exfiltration endpoint patterns or suspicious webhook/C2 infrastructure.",
+      "pattern": "discord(?:app)?\\.com/api/webhooks|api\\.telegram\\.org|hooks\\.slack\\.com|webhook\\.site|requestbin|ngrok|169\\.254\\.169\\.254|metadata\\.google\\.internal|100\\.100\\.100\\.200",
+      "flags": "i",
+      "severity": "critical",
+      "confidence": "high",
+      "weight": 9,
+      "tags": ["composer", "php", "c2", "exfiltration", "supply-chain"],
+      "references": []
+    }
+  ]
+}

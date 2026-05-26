@@ -1,0 +1,21 @@
+{
+  "id": "owasp-a04-cryptographic-failures",
+  "version": "1.0.0",
+  "description": "OWASP Top 10:2025 A04 module for weak cryptographic usage patterns.",
+  "rules": [
+    {
+      "id": "owasp.a04.weak-crypto-primitives",
+      "scope": "file",
+      "title": "Weak cryptographic primitive",
+      "description": "Referenced JS uses weak or deprecated crypto primitives.",
+      "pattern": "createHash\\(['\"](?:md5|sha1)['\"]\\)|createCipher\\(|des-ede3|rc4|aes-128-ecb",
+      "flags": "i",
+      "severity": "medium",
+      "confidence": "medium",
+      "weight": 4,
+      "tags": ["owasp-a04", "cryptography"],
+      "references": ["https://owasp.org/Top10/A04_2025-Cryptographic_Failures/"]
+    }
+  ]
+}
+

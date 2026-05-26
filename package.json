@@ -1,0 +1,42 @@
+{
+  "name": "@owasp-modules/omsf",
+  "version": "1.0.2",
+  "private": false,
+  "displayName": "OWASP Module Security Framework",
+  "type": "module",
+  "description": "OWASP Module Security Framework (OMSF): modular security checks for CI, policy, and SARIF reporting.",
+  "license": "MIT",
+  "keywords": [
+    "owasp",
+    "security",
+    "supply-chain",
+    "devsecops",
+    "sarif",
+    "ci",
+    "composer",
+    "php"
+  ],
+  "bin": {
+    "omsf": "./apps/cli/src/index.mjs"
+  },
+  "files": [
+    "apps/",
+    "packages/",
+    "rules/",
+    "docs/",
+    "examples/",
+    "tests/",
+    "CHANGELOG.md",
+    "README.md"
+  ],
+  "scripts": {
+    "scan": "node ./apps/cli/src/index.mjs",
+    "test": "node --test ./tests/*.test.mjs",
+    "test:verbose": "node --test --test-reporter=spec ./tests/*.test.mjs",
+    "test:ci": "node --test --test-reporter=spec ./tests/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
+

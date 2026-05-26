@@ -1,0 +1,9 @@
+{
+  "name": "fixture-safe",
+  "version": "1.0.1",
+  "private": true,
+  "scripts": {
+    "prepare": "node scripts/build.js"
+  }
+}
+

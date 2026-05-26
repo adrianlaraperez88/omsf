@@ -1,0 +1,87 @@
+{
+  "id": "owasp-a03-composer-supply-chain",
+  "version": "1.0.0",
+  "description": "OWASP Top 10:2025 A03 module: Composer/PHP supply-chain integrity checks. Targets the Laravel-Lang attack class — autoload.files injection, mutable git-tag pinning, and PHP dropper patterns.",
+  "rules": [
+    {
+      "id": "owasp.a03.composer-autoload-files",
+      "scope": "manifest",
+      "title": "autoload.files injection vector (Composer)",
+      "description": "composer.json declares autoload.files entries. PHP executes every listed file automatically via the Composer autoloader on each application boot. This was the precise injection mechanism in the May 2026 Laravel-Lang supply chain attack: attackers added src/helpers.php to autoload.files inside rewritten git tags, achieving immediate code execution without any explicit call site.",
+      "pattern": "autoload\\.files",
+      "flags": "i",
+      "severity": "high",
+      "confidence": "high",
+      "weight": 6,
+      "tags": ["owasp-a03", "composer", "autoload", "supply-chain"],
+      "references": [
+        "https://owasp.org/Top10/A03_2025-Software_Supply_Chain_Failures/",
+        "https://www.stepsecurity.io/blog/laravel-lang-supply-chain-attack"
+      ]
+    },
+    {
+      "id": "owasp.a03.composer-missing-lockfile",
+      "scope": "lockfile",
+      "title": "Missing composer.lock (Composer)",
+      "description": "composer.json found but no composer.lock committed. A missing lock file means every install re-resolves dependencies from registries, making mutable-tag attacks like Laravel-Lang silently effective. The lock file — committed and audited — is the primary integrity control for Composer projects.",
+      "pattern": "missing",
+      "flags": "i",
+      "severity": "high",
+      "confidence": "high",
+      "weight": 7,
+      "tags": ["owasp-a03", "composer", "lockfile", "integrity"],
+      "references": [
+        "https://owasp.org/Top10/A03_2025-Software_Supply_Chain_Failures/",
+        "https://getcomposer.org/doc/01-basic-usage.md#commit-your-composer-lock-file-to-version-control"
+      ]
+    },
+    {
+      "id": "owasp.a03.composer-lock-tag-pin",
+      "scope": "lockfile",
+      "title": "Tag-only pin in composer.lock (Composer)",
+      "description": "One or more packages in composer.lock are pinned by a mutable version tag rather than a commit SHA. The Laravel-Lang attacker exploited tag mutability: by force-pushing malicious code behind existing version tags, they bypassed version-pinned installs entirely. Packages must be locked to an immutable commit SHA.",
+      "pattern": "tag-pin",
+      "flags": "i",
+      "severity": "high",
+      "confidence": "high",
+      "weight": 7,
+      "tags": ["owasp-a03", "composer", "lockfile", "mutable-tag", "integrity"],
+      "references": [
+        "https://owasp.org/Top10/A03_2025-Software_Supply_Chain_Failures/",
+        "https://www.stepsecurity.io/blog/laravel-lang-supply-chain-attack"
+      ]
+    },
+    {
+      "id": "owasp.a03.composer-php-base64-eval",
+      "scope": "file",
+      "title": "PHP base64/obfuscated eval dropper (Composer)",
+      "description": "An autoloaded PHP file contains eval(base64_decode(...)) or equivalent obfuscation. This is the canonical PHP dropper signature and matches the payload style used in the Laravel-Lang credential stealer.",
+      "pattern": "\\beval\\s*\\(\\s*(?:base64_decode|gzinflate|str_rot13|gzuncompress|strrev)\\s*\\(",
+      "flags": "i",
+      "severity": "critical",
+      "confidence": "high",
+      "weight": 10,
+      "tags": ["owasp-a03", "composer", "php", "dropper", "obfuscation"],
+      "references": [
+        "https://owasp.org/Top10/A03_2025-Software_Supply_Chain_Failures/",
+        "https://www.stepsecurity.io/blog/laravel-lang-supply-chain-attack"
+      ]
+    },
+    {
+      "id": "owasp.a03.composer-remote-fetch",
+      "scope": "file",
+      "title": "Remote fetch in autoloaded PHP file (Composer)",
+      "description": "An autoloaded PHP file fetches content from a remote URL. Combined with auto-execution via autoload.files, this recreates the dropper→stager→stealer chain observed in the Laravel-Lang attack.",
+      "pattern": "\\bfile_get_contents\\s*\\(\\s*['\"]https?://|\\bcurl_exec\\s*\\(|\\bfsockopen\\s*\\(",
+      "flags": "i",
+      "severity": "critical",
+      "confidence": "high",
+      "weight": 10,
+      "tags": ["owasp-a03", "composer", "php", "remote-fetch", "dropper"],
+      "references": [
+        "https://owasp.org/Top10/A03_2025-Software_Supply_Chain_Failures/",
+        "https://www.stepsecurity.io/blog/laravel-lang-supply-chain-attack"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "owasp-a08-software-or-data-integrity-failures",
+  "version": "1.0.0",
+  "description": "OWASP Top 10:2025 A08 module for software and data integrity control bypass patterns.",
+  "rules": [
+    {
+      "id": "owasp.a08.integrity-check-bypass",
+      "scope": "script",
+      "title": "Integrity verification bypass",
+      "description": "Lifecycle script bypasses checksum or signature validation before executing content.",
+      "pattern": "(?:sha(?:256|384|512)sum|shasum)\\s+-c[^\\n\\r]*(?:\\|\\|\\s*true|;\\s*true)|cosign\\s+verify[^\\n\\r]*(?:\\|\\|\\s*true|;\\s*true)|gpg\\s+--verify[^\\n\\r]*(?:\\|\\|\\s*true|;\\s*true)",
+      "flags": "i",
+      "severity": "high",
+      "confidence": "medium",
+      "weight": 5,
+      "tags": ["owasp-a08", "integrity"],
+      "references": ["https://owasp.org/Top10/A08_2025-Software_and_Data_Integrity_Failures/"]
+    }
+  ]
+}
+

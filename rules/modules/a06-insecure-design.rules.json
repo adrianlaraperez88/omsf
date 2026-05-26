@@ -1,0 +1,21 @@
+{
+  "id": "owasp-a06-insecure-design",
+  "version": "1.0.0",
+  "description": "OWASP Top 10:2025 A06 module for insecure design and bypass patterns.",
+  "rules": [
+    {
+      "id": "owasp.a06.security-bypass-toggle",
+      "scope": "script",
+      "title": "Security bypass toggle",
+      "description": "Lifecycle script enables bypass flags that disable security controls.",
+      "pattern": "AUTH(?:ENTICATION)?_DISABLED\\s*=\\s*true|BYPASS_(?:AUTH|SECURITY)\\s*=\\s*1|DISABLE_SECURITY\\s*=\\s*true",
+      "flags": "i",
+      "severity": "medium",
+      "confidence": "low",
+      "weight": 3,
+      "tags": ["owasp-a06", "insecure-design"],
+      "references": ["https://owasp.org/Top10/A06_2025-Insecure_Design/"]
+    }
+  ]
+}
+

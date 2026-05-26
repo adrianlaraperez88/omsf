@@ -1,0 +1,10 @@
+{
+  "name": "@owasp-modules/omsf-cli",
+  "version": "1.0.1",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "omsf": "./src/index.mjs"
+  }
+}
+
